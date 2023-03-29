@@ -10,7 +10,7 @@ As a first design principle, views are created on the SQL Database to use as dat
 ### Refresh 
 Set to automatically refresh from Power BI Workspace three times a day; 09:00, 13:00 & 17:00.  
 
-Uses SQL Server Authentication against Prism database. The details are in DAT's KeePass.  
+Uses SQL Server Authentication against Prism database. the contained user has been made a member of the _db_datareader_ role.  The details are in DAT's KeePass.  
 
 ### Row Level Security
 Uses [Row Level Security](https://learn.microsoft.com/en-us/power-bi/enterprise/service-admin-rls) to filter visible projects to just those that the viewer is a amember of. Workspace members assigned Admin, Member, or Contributor have edit permission for the dataset and, therefore, RLS doesn’t apply to them.
