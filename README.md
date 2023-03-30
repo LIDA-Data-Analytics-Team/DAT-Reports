@@ -63,3 +63,18 @@ Left joins to `[dbo].[vw_AllProjects]` on ProjectNumber, which is extracted as a
     end as [Projectnumber]
 ```
 `[UserPrincipalName]` is used in the Row Level Security filter to determine which `[ProjectNumber]` the viewer is a member of and therefore which project details should be permitted for viewing.
+
+#### vw_LaserActiveResources
+Uses `[dbo].[tblLaserResources]` as a primary source table.  
+
+Left joins to `[dbo].[vw_AllProjects]` on ProjectNumber, which is extracted as a substring from `[ResourceGroup]` using the following logic:  
+```sql
+-- most resource groups follow standard naming convention that includes project number. The are a couple of exceptions...
+, case when substring([ResourceGroup], 14, 7) = 'picanet'
+	then 'p0001'
+	when substring([ResourceGroup], 14, 8) = 'picnetv2'
+		then 'p0001'
+	else substring([ResourceGroup], 14, 5)
+	end as [ProjectNumber]
+```
+All records with a Resource Group that doesn't contain a ProjectNumber on the Prism record (as extracted above) are flagged as 'Infra' in the field `[Project]`, which otherwise is a concatenation of ProjectNumber & ProjectName.  
